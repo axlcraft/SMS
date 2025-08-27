@@ -38,7 +38,11 @@ services:
     volumes:
       - auth_data:/data/db
 
-  # --- Plantillas de Microservicios ---
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
   # Microservicio de Métricas
   metrics-service:
     build: ./services/metrics
@@ -46,7 +50,7 @@ services:
     ports:
       - "8002:8002"
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_DB}:5432/${POSTGRES_DB}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@metrics-db:5432/${POSTGRES_DB}
     depends_on:
       - metrics-db
   # Base de datos para el Microservicio de Métricas
@@ -63,53 +67,54 @@ services:
       - metricas_data:/var/lib/postgresql/data
       
   # Microservicio de Análisis
-  analisis-service:
-    build: ./services/analisis
-    container_name: analisis-service
-    ports:
-      - "8002:8002"
-    environment:
-      - DATABASE_URL=postgresql://user:password@analisis-db:5432/analisis_db
-    depends_on:
-      - analisis-db
+  # analisis-service:
+  #   build: ./services/analisis
+  #   container_name: analisis-service
+  #   ports:
+  #     - "8002:8002"
+  #   environment:
+  #     - DATABASE_URL=postgresql://user:password@analisis-db:5432/analisis_db
+  #   depends_on:
+  #     - analisis-db
 
-  # Base de datos para el Microservicio de Análisis
-  analisis-db:
-    image: postgres
-    container_name: analisis-db
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=analisis_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - analisis_data:/var/lib/postgresql/data
+  # # Base de datos para el Microservicio de Análisis
+  # analisis-db:
+  #   image: postgres
+  #   container_name: analisis-db
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=analisis_db
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - analisis_data:/var/lib/postgresql/data
 
-  # Microservicio de Alertas
-  alerts-service:
-    build: ./services/alerts
-    container_name: alerts-service
-    ports:
-      - "8002:8002"
-    environment:
-      - DATABASE_URL=postgresql://user:password@alerts-db:5432/alertas_db
-    depends_on:
-      - alerts-db
+  # # Microservicio de Alertas
+  # alerts-service:
+  #   build: ./services/alerts
+  #   container_name: alerts-service
+  #   ports:
+  #     - "8002:8002"
+  #   environment:
+  #     - DATABASE_URL=postgresql://user:password@alerts-db:5432/alertas_db
+  #   depends_on:
+  #     - alerts-db
 
-  # Base de datos para el Microservicio de Alertas
-  alerts-db:
-    image: redis
-    container_name: alerts-db
-    environment:
-      - REDIS_PASSWORD=password
-    ports:
-      - "6379:6379"
-    volumes:
-      - alertas_data:/var/lib/postgresql/data
+  # # Base de datos para el Microservicio de Alertas
+  # alerts-db:
+  #   image: postgres
+  #   container_name: alerts-db
+  #   environment:
+  #     - REDIS_PASSWORD=password
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - alertas_data:/var/lib/postgresql/data
 
 volumes:
   auth_data:
   service1_data:
   metricas_data:
   analisis_data:
+  alertas_data:
