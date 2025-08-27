@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException
+from contextlib import asynccontextmanager
 import os
 
 # TODO: Importar el módulo de base de datos y los modelos
@@ -8,15 +9,22 @@ from . import models
 # TODO: Configurar la URL de la base de datos desde las variables de entorno
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Código que se ejecuta al iniciar la aplicación
+    create_db_and_tables()
+    yield
+    # Código que se ejecuta al cerrar la aplicación
 
-# TODO: Crea una instancia del router para organizar los endpoints
+app = FastAPI(lifespan=lifespan)
+
 router = APIRouter()
+
 
 # TODO: Define un endpoint raíz o de salud para verificar que el servicio está funcionando
 @app.get("/")
 def read_root():
-    return {"message": "Servicio de [nombre_del_servicio] en funcionamiento."}
+    return {"message": "Servicio de métricas en funcionamiento."}
 
 @app.get("/health")
 def health_check():
