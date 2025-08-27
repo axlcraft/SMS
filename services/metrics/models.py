@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Float, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base #, relationship
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -25,10 +25,7 @@ class Metrics(Base):
 
     def __repr__(self):
         return f"<YourModel(id={self.id}')>"
-
-# TODO: Define los modelos Pydantic para la validación de datos.
-# Estos modelos se usarán en los endpoints de FastAPI para validar la entrada y salida.
-
+    
 class MetricsBase(BaseModel):
     systolic_pressure: int = Field(..., ge=50, le=250)   
     diastolic_pressure: int = Field(..., ge=30, le=150) 

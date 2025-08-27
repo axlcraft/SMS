@@ -37,12 +37,6 @@ services:
       - "27017:27017"
     volumes:
       - auth_data:/data/db
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - "8080:8080"
   # Microservicio de Métricas
   metrics-service:
     build: ./services/metrics
@@ -50,7 +44,7 @@ services:
     ports:
       - "8002:8002"
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@metrics-db:5432/${POSTGRES_DB}
+      - DATABASE_URL=${METRICS_DATABASE_URL}
     depends_on:
       - metrics-db
   # Base de datos para el Microservicio de Métricas
@@ -61,7 +55,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-    ports:
+    ports:  
       - "5432:5432"
     volumes:
       - metricas_data:/var/lib/postgresql/data

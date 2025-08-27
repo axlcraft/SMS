@@ -2,11 +2,11 @@ from fastapi import FastAPI, APIRouter, HTTPException
 import os
 
 # TODO: Importar el módulo de base de datos y los modelos
-# from .database import [tu_motor_de_base_de_datos]
-# from .models import [tus_modelos]
+from .database_sql import create_db_and_tables, get_db
+from . import models
 
 # TODO: Configurar la URL de la base de datos desde las variables de entorno
-# DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = FastAPI()
 
