@@ -40,19 +40,19 @@ services:
 
   # --- Plantillas de Microservicios ---
   # Microservicio de Métricas
-  metricas-service:
-    build: ./services/metricas
-    container_name: metricas-service
+  metrics-service:
+    build: ./services/metrics
+    container_name: metrics-service
     ports:
       - "8002:8002"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_DB}:5432/${POSTGRES_DB}
     depends_on:
-      - metricas-db
+      - metrics-db
   # Base de datos para el Microservicio de Métricas
-  metricas-db:
+  metrics-db:
     image: postgres
-    container_name: metricas-db
+    container_name: metrics-db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -87,20 +87,20 @@ services:
       - analisis_data:/var/lib/postgresql/data
 
   # Microservicio de Alertas
-  alertas-service:
-    build: ./services/alertas
-    container_name: alertas-service
+  alerts-service:
+    build: ./services/alerts
+    container_name: alerts-service
     ports:
       - "8002:8002"
     environment:
-      - DATABASE_URL=postgresql://user:password@alertas-db:5432/alertas_db
+      - DATABASE_URL=postgresql://user:password@alerts-db:5432/alertas_db
     depends_on:
-      - alertas-db
+      - alerts-db
 
   # Base de datos para el Microservicio de Alertas
-  alertas-db:
+  alerts-db:
     image: redis
-    container_name: alertas-db
+    container_name: alerts-db
     environment:
       - REDIS_PASSWORD=password
     ports:
