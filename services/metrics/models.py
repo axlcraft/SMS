@@ -1,52 +1,46 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Float, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 from datetime import datetime
 
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field
+# from typing import Optional
 
 # Define la base declarativa
 Base = declarative_base()
 
-# TODO: Crea tus modelos de datos aquí.
-# Cada clase de modelo representa una tabla en tu base de datos.
-# Debes renombrar YourModel por el nombre de la Clase según el servicio
-class YourModel(Base):
-    """
-    Plantilla de modelo de datos para un recurso.
-    Ajusta esta clase según los requisitos de tu tema.
-    """
-    __tablename__ = "[nombre_de_tu_tabla]"
+# Clase de modelo para las métricas
+class Metrics(Base):
+    # Nombre de la tabla
+    __tablename__ = "metrics"
 
     # Columnas de la tabla
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    description = Column(String)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    systolic_pressure = Column(Integer, nullable=True)
+    diastolic_pressure = Column(Integer, nullable=True)
+    heart_rate = Column(Integer, nullable=True)
+    weight = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    # TODO: Agrega más columnas según sea necesario.
-    # Por ejemplo:
-    # is_active = Column(Boolean, default=True)
-    # foreign_key_id = Column(Integer, ForeignKey("otra_tabla.id"))
+    # user = relationship("User", back_populates="metrics")
 
     def __repr__(self):
-        return f"<YourModel(id={self.id}, name='{self.name}')>"
+        return f"<YourModel(id={self.id}')>"
 
 # TODO: Define los modelos Pydantic para la validación de datos.
 # Estos modelos se usarán en los endpoints de FastAPI para validar la entrada y salida.
 
-class YourModelBase(BaseModel):
-    name: str
-    description: Optional[str] = None
-    # TODO: Agrega los campos que se necesitan para crear o actualizar un recurso.
+class MetricsBase(BaseModel):
+    systolic_pressure: int = Field(..., ge=50, le=250)   
+    diastolic_pressure: int = Field(..., ge=30, le=150) 
+    heart_rate: int = Field(None, ge=30, le=220)        
+    weight: float = Field(None, gt=0)                   
 
-class YourModelCreate(YourModelBase):
-    pass
+class MetricsCreate(MetricsBase):
+    user_id: int
 
-class YourModelRead(YourModelBase):
+class MetricsRead(MetricsBase):
     id: int
     created_at: datetime
-    
-    class Config:
-        orm_mode = True # Habilita la compatibilidad con ORM
 
+    class Config:
+        orm_mode = True
