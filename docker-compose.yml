@@ -14,8 +14,8 @@ services:
     container_name: api-gateway
     ports:
       - "8000:8000"
-    depends_on:
-      - auth-service
+    # depends_on:
+    #   - auth-service
     # Aquí puedes agregar los otros servicios base
 
     # Microservicio de Autenticación

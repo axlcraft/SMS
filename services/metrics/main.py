@@ -43,7 +43,22 @@ def health_check():
 #     # TODO: Agrega la lógica para crear un nuevo recurso
 #     return {"message": "[recurso] creado exitosamente."}
 
+@router.post("/metrics/")
+async def create_metric(metric: models.Metric):
+    db = get_db()
+    db.add(metric)
+    db.commit()
+    db.refresh(metric)
+    return {f'message: {metric} creado exitosamente.'}
+
+# @router.get("/metrics")
+# async def read_metrics():
+#     db = get_db()
+#     metrics = db.query(models.Metric).all()
+#     return metrics
+
+
 
 # TODO: Incluir el router en la aplicación principal
-# app.include_router(router, prefix="/api/v1") 
+app.include_router(router, prefix="/api/v1") 
 

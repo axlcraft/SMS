@@ -33,7 +33,7 @@ class MetricsBase(BaseModel):
     weight: float = Field(None, gt=0)                   
 
 class MetricsCreate(MetricsBase):
-    user_id: int
+    pass
 
 class MetricsRead(MetricsBase):
     id: int

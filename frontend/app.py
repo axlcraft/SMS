@@ -31,24 +31,35 @@ def index():
 def new_item():
     """Ruta para crear un nuevo ítem."""
     if request.method == "POST":
-        # TODO: Recoge los datos del formulario.
-        # item_data = {
-        #     "name": request.form.get("name"),
-        #     "description": request.form.get("description")
-        # }
-        
+        item_data = {
+            "stolic_pressure": request.form.get("stolic_pressure"),
+            "diastolic_pressure": request.form.get("diastolic_pressure"),
+            "heart_rate": request.form.get("heart_rate"),
+            "weight": request.form.get("weight")  
+        }
         # TODO: Envía los datos al API Gateway para crear un nuevo recurso.
-        # try:
-        #     response = requests.post(f"{API_GATEWAY_URL}/api/v1/[recurso]", json=item_data)
-        #     response.raise_for_status()
-        #     return redirect(url_for("index"))
-        # except requests.exceptions.RequestException as e:
-        #     print(f"Error al crear el ítem: {e}")
-        #     return "Error al crear el ítem.", 500
+        try: 
+            response = requests.post(f"{API_GATEWAY_URL}/api/v1/metrics", json=item_data)
+            print(response.text)
+            response.raise_for_status()
+            return redirect(url_for("index"))
+        except requests.exceptions.RequestException as e:
+            print(f"Error al crear el ítem en: {e}")
+            return "Error al crear el ítem.", 500
             
-        return "Método POST no implementado.", 501
-
     return render_template("form.html", title="Nuevo Ítem")
+    # elif request.method == "GET":
+    #     # TODO: Haz una llamada al API Gateway para obtener datos, si es necesario.
+    #     # Por ejemplo, para obtener la lista de items de un servicio:
+    #     try:
+    #         response = requests.get(f"{API_GATEWAY_URL}/api/v1/[recurso]")
+    #         response.raise_for_status()  # Lanza un error para códigos de estado 4xx/5xx
+    #         items = response.json()
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"Error al conectar con el API Gateway: {e}")
+    #         items = []
+
+    # Pasa los datos a la plantilla para renderizarlos.
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

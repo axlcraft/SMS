@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Crear un Nuevo Ítem</h2>
-    <form action="{{ url_for('new_item') }}" method="POST">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="description">Descripción:</label>
-        <textarea id="description" name="description"></textarea>
-        <br>
-        <button type="submit">Guardar</button>
-    </form>
+<h2>Crear un Nuevo Ítem</h2>
+<form action="{{ url_for('new_item') }}" method="POST">
+    <label for="stolic_pressure">Presión Sistólica:</label>
+    <input type="number" id="stolic_pressure" name="stolic_pressure">
+    <br>
+    <label for="diastolic_pressure">Presión Diastólica:</label>
+    <input type="number" id="diastolic_pressure" name="diastolic_pressure" >
+    <br>
+    <label for="heart_rate">Frecuencia Cardíaca:</label>
+    <input type="number" id="heart_rate" name="heart_rate">
+    <br>
+    <label for="weight">Peso (kg):</label>
+    <input type="number" id="weight" name="weight">
+    <br>
+    <button type="submit">Guardar</button>
+</form>
 {% endblock %}
