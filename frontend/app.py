@@ -60,6 +60,38 @@ def new_item():
     #         items = []
 
     # Pasa los datos a la plantilla para renderizarlos.
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # TODO: Recoge los datos del formulario.
+        # username = request.form.get("username")
+        # password = request.form.get("password")
+        # Realiza la autenticación con el API Gateway.
+        # try:
+        #     response = requests.post(f"{API_GATEWAY_URL}/api/v1/auth/login", json={"username": username, "password": password})
+        #     response.raise_for_status()
+        #     return redirect(url_for("index"))
+        # except requests.exceptions.RequestException as e:
+        #     print(f"Error al iniciar sesión: {e}")
+        return "Error al iniciar sesión.", 500
+
+    return render_template("sesion.html", title="Iniciar Sesión")
+
+@app.route("/registro", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        # TODO: Recoge los datos del formulario.
+        # username = request.form.get("username")
+        # password = request.form.get("password")
+        # Realiza la autenticación con el API Gateway.
+        # try:
+        #     response = requests.post(f"{API_GATEWAY_URL}/api/v1/auth/login", json={"username": username, "password": password})
+        #     response.raise_for_status()
+        #     return redirect(url_for("index"))
+        # except requests.exceptions.RequestException as e:
+        #     print(f"Error al iniciar sesión: {e}")
+        return "Error al iniciar sesión.", 500
+    return render_template("registro.html", title="Registrar")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

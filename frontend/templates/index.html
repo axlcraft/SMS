@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>¡Bienvenido al Taller de Microservicios!</h2>
-    <p>Este es el frontend de tu proyecto. Utiliza el API Gateway para interactuar con los microservicios.</p>
+    <h2>¡Bienvenido a la Aplicación de Gestión de Salud!</h2>
+    <div> 
+        <p>inicia sesion para acceder a tus datos de salud o registrar un nuevo paciente.</p>
+    </div>
+    
 
-    <a href="{{ url_for('new_item') }}">Crear un nuevo ítem</a>
+    <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+    <a href="{{ url_for('register') }}">Registrar</a>
 
 {% endblock %}
