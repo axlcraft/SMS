@@ -1,5 +1,8 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Depends
 from contextlib import asynccontextmanager
+from sqlalchemy.orm import Session
+from models import Metrics, MetricsCreate
+from database_sql import get_db
 import os
 
 # TODO: Importar el módulo de base de datos y los modelos
@@ -43,13 +46,15 @@ def health_check():
 #     # TODO: Agrega la lógica para crear un nuevo recurso
 #     return {"message": "[recurso] creado exitosamente."}
 
+
 @router.post("/metrics/")
-async def create_metric(metric: models.Metric):
-    db = get_db()
-    db.add(metric)
+async def create_metric(metric: MetricsCreate, db: Session = Depends(get_db)):
+    print("Creating metric...")
+    db_metric = Metrics(**metric.dict())
+    db.add(db_metric)
     db.commit()
-    db.refresh(metric)
-    return {f'message: {metric} creado exitosamente.'}
+    db.refresh(db_metric)
+    return {f'message: {db_metric} creado exitosamente.'}
 
 # @router.get("/metrics")
 # async def read_metrics():

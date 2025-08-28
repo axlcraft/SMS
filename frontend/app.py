@@ -27,7 +27,7 @@ def index():
     # Pasa los datos a la plantilla para renderizarlos.
     return render_template("index.html", title="Inicio")
 
-@app.route("/new-item", methods=["GET", "POST"])
+@app.route("/new-item", methods=["GET","POST"])
 def new_item():
     """Ruta para crear un nuevo ítem."""
     if request.method == "POST":
@@ -39,7 +39,7 @@ def new_item():
         }
         # TODO: Envía los datos al API Gateway para crear un nuevo recurso.
         try: 
-            response = requests.post(f"{API_GATEWAY_URL}/api/v1/metrics", json=item_data)
+            response = requests.post(f"{API_GATEWAY_URL}/metrics", json=item_data)
             print(response.text)
             response.raise_for_status()
             return redirect(url_for("index"))
