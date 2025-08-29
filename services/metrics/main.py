@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi import FastAPI, APIRouter, Depends
 from contextlib import asynccontextmanager
 from sqlalchemy.orm import Session
 from models import Metrics, MetricsCreate
@@ -47,7 +47,7 @@ def health_check():
 #     return {"message": "[recurso] creado exitosamente."}
 
 
-@router.post("/metrics/")
+@router.post("/create-metrics/")
 async def create_metric(metric: MetricsCreate, db: Session = Depends(get_db)):
     print("Creating metric...")
     db_metric = Metrics(**metric.dict())
@@ -56,14 +56,14 @@ async def create_metric(metric: MetricsCreate, db: Session = Depends(get_db)):
     db.refresh(db_metric)
     return {f'message: {db_metric} creado exitosamente.'}
 
-# @router.get("/metrics")
-# async def read_metrics():
-#     db = get_db()
-#     metrics = db.query(models.Metric).all()
-#     return metrics
+@router.get("/get-metrics/")
+async def read_metrics():
+    db = get_db()
+    metrics = db.query(models.Metric).all()
+    return metrics
 
 
 
 # TODO: Incluir el router en la aplicación principal
-app.include_router(router, prefix="/api/v1") 
+app.include_router(router, prefix="/metrics")
 

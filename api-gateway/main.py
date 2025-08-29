@@ -2,7 +2,6 @@ from fastapi import FastAPI, APIRouter, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import os
-import logging
 
 # Define la instancia de la aplicación FastAPI.
 app = FastAPI(title="API Gateway Taller Microservicios")
@@ -33,7 +32,6 @@ SERVICES = {
 # TODO: Implementa una ruta genérica para redirigir peticiones GET.
 @router.get("/{service_name}/{path:path}")
 async def forward_get(service_name: str, path: str, request: Request):
-    app.logger.info(service_name, path)
     if service_name not in SERVICES:
         raise HTTPException(status_code=404, detail=f"Service '{service_name}' not found.")
     
@@ -47,12 +45,12 @@ async def forward_get(service_name: str, path: str, request: Request):
         raise HTTPException(status_code=500, detail=f"Error forwarding request to {service_name}: {e}")
 
 # TODO: Implementa una ruta genérica para redirigir peticiones POST.
-@app.post("/{service_name}/{path:path}")
+@router.post("/{service_name}/{path:path}")
 async def forward_post(service_name: str, path: str, request: Request):
     if service_name not in SERVICES:
         raise HTTPException(status_code=404, detail=f"Service '{service_name}' not found")
     
-    service_url = f"{SERVICES[service_name]}/{path}"
+    service_url = f"{SERVICES[service_name]}/{service_name}/{path}"
     print(f"SERVICE URL: {service_url}")
     try:
         # Pasa los datos JSON del cuerpo de la petición.

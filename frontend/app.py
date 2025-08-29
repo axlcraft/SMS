@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Obtén la URL del API Gateway desde las variables de entorno.
 # Esta variable debe estar configurada en el docker-compose.yml.
-API_GATEWAY_URL = os.getenv("API_GATEWAY_URL", "http://localhost:8000")
+API_GATEWAY_URL = os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
 
 @app.route("/")
 def index():
@@ -32,14 +32,14 @@ def new_item():
     """Ruta para crear un nuevo ítem."""
     if request.method == "POST":
         item_data = {
-            "stolic_pressure": request.form.get("stolic_pressure"),
-            "diastolic_pressure": request.form.get("diastolic_pressure"),
-            "heart_rate": request.form.get("heart_rate"),
-            "weight": request.form.get("weight")  
+            "systolic_pressure": int(request.form.get("systolic_pressure")),
+            "diastolic_pressure": int(request.form.get("diastolic_pressure")),
+            "heart_rate": int(request.form.get("heart_rate")),
+            "weight": float(request.form.get("weight"))
         }
         # TODO: Envía los datos al API Gateway para crear un nuevo recurso.
         try: 
-            response = requests.post(f"{API_GATEWAY_URL}/metrics", json=item_data)
+            response = requests.post(f"{API_GATEWAY_URL}/api/v1/metrics/create-metrics", json=item_data)
             print(response.text)
             response.raise_for_status()
             return redirect(url_for("index"))
