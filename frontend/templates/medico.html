@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>¡Bienvenido a la Aplicación de Gestión de Salud!</h2>
+    <div> 
+        <p>Quieres Realizar un nuevo seguimiento de salud o revisar los que ya estan?</p>
+    </div>
+    
+
+    <a href="{{ url_for('new_item') }}">Nuevo seguimiento</a>
+    
+    
+
+{% endblock %}

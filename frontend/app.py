@@ -93,6 +93,19 @@ def register():
         return "Error al iniciar sesión.", 500
     return render_template("registro.html", title="Registrar")
 
+@app.route("/medico")
+def medico():
+    return render_template("medico.html", title="Médico")
+
+@app.route("/grafica", methods=["GET"])
+def grafica():
+    
+
+    
+    
+    
+    return render_template("grafica.html", title="Gráfica")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 
