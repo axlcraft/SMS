@@ -56,6 +56,7 @@ async def create_metric(metric: MetricsCreate, db: Session = Depends(get_db)):
     db.refresh(db_metric)
     return {f'message: {db_metric} creado exitosamente.'}
 
+
 @router.get("/get-metrics/")
 async def read_metrics():
     db = get_db()

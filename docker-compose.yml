@@ -14,29 +14,39 @@ services:
     container_name: api-gateway
     ports:
       - "8000:8000"
-    # depends_on:
-    #   - auth-service
+    depends_on:
+      - auth-service
     # Aquí puedes agregar los otros servicios base
 
-    # Microservicio de Autenticación
   auth-service:
     build: ./services/authentication
     container_name: auth-service
     ports:
       - "8001:8001"
     environment:
-      - DATABASE_URL=mongodb://auth-db:27017/auth_db
+      - DATABASE_URL=postgresql://auth_user:auth_password@auth-db:5432/auth_db
+      - POSTGRES_USER=auth_user
+      - POSTGRES_PASSWORD=auth_password
+      - POSTGRES_DB=auth_db
     depends_on:
-      - auth-db
+      auth-db:
+        condition: service_healthy
 
-  # Base de datos para el servicio de autenticación
   auth-db:
-    image: mongo:latest
+    image: postgres
     container_name: auth-db
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_password
+      POSTGRES_DB: auth_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth_db"]
+      interval: 2s
+      retries: 10
     ports:
-      - "27017:27017"
+      - "5433:5432"
     volumes:
-      - auth_data:/data/db
+      - auth_data:/var/lib/postgresql/data
   # Microservicio de Métricas
   metrics-service:
     build: ./services/metrics

@@ -63,34 +63,30 @@ def new_item():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # TODO: Recoge los datos del formulario.
-        # username = request.form.get("username")
-        # password = request.form.get("password")
-        # Realiza la autenticación con el API Gateway.
-        # try:
-        #     response = requests.post(f"{API_GATEWAY_URL}/api/v1/auth/login", json={"username": username, "password": password})
-        #     response.raise_for_status()
-        #     return redirect(url_for("index"))
-        # except requests.exceptions.RequestException as e:
-        #     print(f"Error al iniciar sesión: {e}")
-        return "Error al iniciar sesión.", 500
-
+        email = request.form.get("email")
+        password = request.form.get("password")
+        try:
+            response = requests.post(f"{API_GATEWAY_URL}/auth/login", json={"email": email, "password": password})
+            response.raise_for_status()
+            # Puedes guardar la sesión en cookies si lo deseas
+            return redirect(url_for("index"))
+        except requests.exceptions.RequestException as e:
+            print(f"Error al iniciar sesión: {e}")
+            return "Error al iniciar sesión.", 500
     return render_template("sesion.html", title="Iniciar Sesión")
 
 @app.route("/registro", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # TODO: Recoge los datos del formulario.
-        # username = request.form.get("username")
-        # password = request.form.get("password")
-        # Realiza la autenticación con el API Gateway.
-        # try:
-        #     response = requests.post(f"{API_GATEWAY_URL}/api/v1/auth/login", json={"username": username, "password": password})
-        #     response.raise_for_status()
-        #     return redirect(url_for("index"))
-        # except requests.exceptions.RequestException as e:
-        #     print(f"Error al iniciar sesión: {e}")
-        return "Error al iniciar sesión.", 500
+        email = request.form.get("email")
+        password = request.form.get("password")
+        try:
+            response = requests.post(f"{API_GATEWAY_URL}/auth/register", json={"email": email, "password": password})
+            response.raise_for_status()
+            return redirect(url_for("login"))
+        except requests.exceptions.RequestException as e:
+            print(f"Error al registrar usuario: {e}")
+            return "Error al registrar usuario.", 500
     return render_template("registro.html", title="Registrar")
 
 @app.route("/medico")
